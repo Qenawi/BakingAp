@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">BakingAp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="media_url_dash">https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffdb72_5-mix-vanilla-cream-together-cheesecake/5-mix-vanilla-cream-together-cheesecake.mp4</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <!---  bundle -->
+    <string name="bundleK1">AE7ECO0</string>
+    <string name="bundleK2">AE7ECO1</string>
+    <string name="bundleK3">AE7ECO2</string>
+    <string name="bundleK4">AE7ECO3</string>
+    <string name="bundleK5">AE7ECO4</string>
+    <string name="bundleK6">AE7ECO5</string>
+    <string name="bundleK7">AE7ECO6</string>
+    <!--Text -->
+    <string name="text0">Loading..</string>
+    <string name="text1">Image</string>
+    <string name="text2">HelloWorld</string>
+    <string name="text3">prev</string>
+    <string name="text4">next</string>
+    <string name="text5">AE7ECO0</string>
+    <string name="text6">AE7ECO0</string>
+    <string name="text7">AE7ECO0</string>
+    <string name="text8">AE7ECO0</string>
+    <string name="text9">AE7ECO0</string>
+    <!--Actions -->
+    <string name="Action0">Xe589</string>
+    <!-- Res -->
+    <string name="RESPONSE0">must implement OnFragmentInteractionSelectRecipe</string>
+    <string name="RESPONSE1">vnd.android.cursor.dir</string>
+    <string name="RESPONSE2">Unknown Uri :</string>
+    <string name="RESPONSE3">Faild to insert into</string>
+    must implement OnFragmentInteractionSelectRecipe
+
+
+
+
+
+</resources>
