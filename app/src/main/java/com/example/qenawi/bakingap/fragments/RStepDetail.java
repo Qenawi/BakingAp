@@ -326,17 +326,21 @@ public class RStepDetail extends Fragment implements ExoPlayer.EventListener,Ada
     {
 if (playbackState==ExoPlayer.STATE_BUFFERING)
 {
-    mListener.onFragmentInteraction(false);
+    mListener.onFragmentInteraction(true);
+    Log.v("ERX","buffer");
     stateBuilder.setState(PlaybackStateCompat.STATE_BUFFERING,player.getCurrentPosition(),1f);
 }
 else if (playbackState == ExoPlayer.STATE_READY&&playWhenReady)
 {
+    Log.v("ERX","bufferA");
     stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,player.getCurrentPosition(),1f);
     mListener.onFragmentInteraction(true);
 }
 else if(playbackState == ExoPlayer.STATE_READY)
 {
+    Log.v("ERX","bufferB");
     stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, player.getCurrentPosition(), 1f);
+    mListener.onFragmentInteraction(true);
 }
 mediaSession.setPlaybackState(stateBuilder.build());
     }

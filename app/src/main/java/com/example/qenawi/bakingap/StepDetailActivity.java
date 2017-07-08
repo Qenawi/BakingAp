@@ -33,7 +33,6 @@ public class StepDetailActivity extends AppCompatActivity implements RStepDetail
     @Override
     public void onFragmentInteraction(Object uri)
     {
-        // set ideling source state
         if(simpleIdlingResource!=null)
         simpleIdlingResource.setIdleState((boolean)uri);
     }

@@ -40,7 +40,7 @@ public class DetailActivityTest {
         stepItems.add(new StepItem("shrt","lng","link","thumbal"));
         ingredientItems.add(new IngredientItem(8,"xx","bal7"));
         Bundle bundle = new Bundle();
-        bundle.putSerializable("bit", new RecipeItem("bA",7,"ede",ingredientItems,stepItems));
+        bundle.putSerializable("AE7ECO0", new RecipeItem("bA",7,"ede",ingredientItems,stepItems));
         Intent i=new Intent();
         i.putExtras(bundle);
         mActivityTestRule.launchActivity(i);

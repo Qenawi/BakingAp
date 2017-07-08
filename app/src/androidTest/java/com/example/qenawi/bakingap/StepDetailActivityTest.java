@@ -27,7 +27,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -43,12 +42,12 @@ public class StepDetailActivityTest {
     {
         ArrayList<StepItem>stepItems=new ArrayList<>();
         ArrayList<IngredientItem>ingredientItems=new ArrayList<>();
-        stepItems.add(new StepItem("shrt","lng","link","thumbal"));
+        stepItems.add(new StepItem("shrt","lng","https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4","thumbal"));
         ingredientItems.add(new IngredientItem(8,"xx","bal7"));
         Bundle bundle = new Bundle();
-        bundle.putSerializable("bit3", new RecipeItem("bA",7,"ede",ingredientItems,stepItems));
-        bundle.putInt("bit4", 0);
-        bundle.putBoolean("bit74",false);
+        bundle.putSerializable("AE7ECO0", new RecipeItem("bA",7,"ede",ingredientItems,stepItems));
+        bundle.putInt("AE7ECO1", 0);
+        bundle.putBoolean("AE7ECO3",false);
         Intent i=new Intent();
         i.putExtras(bundle);
         mActivityTestRule.launchActivity(i);
@@ -65,22 +64,14 @@ public class StepDetailActivityTest {
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withId(R.id.exo_play), withContentDescription("Play"), isDisplayed()));
         appCompatImageButton2.perform(click());
-        ViewInteraction appCompatImageButton3 = onView(
-                allOf(withId(R.id.exo_pause), withContentDescription("Pause"), isDisplayed()));
-        appCompatImageButton3.perform(click());
-        ViewInteraction appCompatImageButton4 = onView(
-                allOf(withId(R.id.exo_play), withContentDescription("Play"), isDisplayed()));
-        appCompatImageButton4.perform(click());
+
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.button2), withText("Next"),
-                        withParent(withId(R.id.fragment2)),
-                        isDisplayed()));
+                allOf(withId(R.id.button2), withText("next"), isDisplayed()));
         appCompatButton.perform(click());
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.button), withText("Prev"),
-                        withParent(withId(R.id.fragment2)),
-                        isDisplayed()));
+                allOf(withId(R.id.button), withText("prev"), isDisplayed()));
         appCompatButton2.perform(click());
+
     }
     @After
    public void UnReg()
