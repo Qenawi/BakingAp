@@ -27,6 +27,7 @@ public class AdapterMultiView extends RecyclerView.Adapter<GenericViewHolder>
   private   ArrayList<IngredientItem> data1;
     private  ArrayList<StepItem> data2;
     private  Context C;
+    private String Na;
     private   onClickListner mOnClickListener;
 
     public AdapterMultiView( RecipeItem data3,onClickListner L, Context c)
