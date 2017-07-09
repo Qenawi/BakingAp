@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.qenawi.bakingap.R;
 import com.example.qenawi.bakingap.genericviewholders.GenericViewHolder;
 import com.example.qenawi.bakingap.items.StepItem;
@@ -61,21 +64,25 @@ public class AdapterMultiView2 extends RecyclerView.Adapter<GenericViewHolder>
     {
         TextView textView;
         Button nxt,prev;
+        ImageView thup;
         public Viewholder2(View itemView)
         {
             super(itemView);
-
             textView=(TextView)itemView.findViewById(R.id.item2text3);
             nxt=(Button) itemView.findViewById(R.id.button2);
             prev=(Button) itemView.findViewById(R.id.button);
+            thup=(ImageView)itemView.findViewById(R.id.thump);
             nxt.setOnClickListener(this);
             prev.setOnClickListener(this);
-
         }
-
         @Override
         public void bind(int position)
         {
+            if (!data2.getThumbnailURL().equals(""))
+            {
+                thup.setVisibility(View.VISIBLE);
+                Glide.with(C).load(data2.getThumbnailURL()).fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE).into(thup);
+            }else {thup.setVisibility(View.INVISIBLE);}
           textView.setText(data2.getDescription());
         }
 

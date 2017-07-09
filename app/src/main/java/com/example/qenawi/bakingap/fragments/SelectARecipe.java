@@ -2,8 +2,8 @@ package com.example.qenawi.bakingap.fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,21 +13,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.qenawi.bakingap.provider.Rcontract;
 import com.example.qenawi.bakingap.R;
 import com.example.qenawi.bakingap.adapters.RecyclerViewAdapterMainActivity;
 import com.example.qenawi.bakingap.items.IngredientItem;
 import com.example.qenawi.bakingap.items.RecipeItem;
 import com.example.qenawi.bakingap.items.StepItem;
-import com.example.qenawi.bakingap.widget.BakingAppWidgetProvider;
+import com.example.qenawi.bakingap.provider.Rcontract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainActivity.onClickListner
 {
@@ -37,7 +47,7 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
     private OnFragmentInteractionSelectRecipe mListener;
     private  RecyclerView.LayoutManager layoutManager;
     private ArrayList<RecipeItem>recipeItems;
-    private String Json;
+
     public SelectARecipe()
     {
         // Required empty public constructor
@@ -47,12 +57,13 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Json=loadJSONFromAsset();
+      //  Json=loadJSONFromAsset();
         recipeItems=new ArrayList<>();
         try
         {
-            getData(Json);
-        } catch (JSONException e)
+          GetJsonFromUrl A=new GetJsonFromUrl();
+          A.execute("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -69,6 +80,7 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
         layoutManager=new GridLayoutManager(getContext(),2);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(layoutManager);
+        Log.v("Alpha",recipeItems.size()+"VE");
         adapter = new RecyclerViewAdapterMainActivity(getContext(), this, recipeItems, 2);
         rv.setAdapter(adapter);
         return  root;
@@ -112,27 +124,12 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
     public interface OnFragmentInteractionSelectRecipe
     {
         void onActionSelectRecipe(Object uri);
+        void onAc();
     }
-    private String loadJSONFromAsset()
-    {
-        String json = null;
-        try
-        {
-            InputStream is = getActivity().getAssets().open("jsonCock.txt");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex)
-        {
-            ex.printStackTrace();
-            return null;
-        }
-        return  json;
-    }
+
     private  void getData(String json) throws JSONException
     {
+        Log.v("Alpha",json);
         ArrayList<IngredientItem>ingredientItems;
         ArrayList<StepItem>stepItems;
 
@@ -142,6 +139,7 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
         IngredientItem ingredientItem;
         StepItem stepItem;
         arr = new JSONArray(json);
+        Log.v("Alpha",arr.length()+" ");
         for(int i=0;i<arr.length();i++) //recipi
         {
             o=arr.getJSONObject(i);
@@ -151,6 +149,7 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
             steps=o.getJSONArray("steps");
             ingredientItems=new ArrayList<>();
             stepItems=new ArrayList<>();
+            Log.v("Alpha",f.getName());
             for(int ii=0;ii<ingred.length();ii++)
             {
                 oi=ingred.getJSONObject(ii);
@@ -176,14 +175,7 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
             f.setStepItems(stepItems);
             recipeItems.add(f);
         }
-    //    adapter.notifyDataSetChanged();
-    }
-    void UpdateWedgit( )
-    {
-
-        Intent i = new Intent(getContext(), BakingAppWidgetProvider.class);
-        i.setAction("UPDATE_ACTION");
-        getActivity().sendBroadcast(i);
+    adapter.notifyDataSetChanged();
     }
     void clean_add(int pos)
     {
@@ -218,7 +210,6 @@ for(int i=0;i<recipeItems.get(pos).getIngredientItems().size();i++)
         contentValues.put(Rcontract.RECIPE_TAG,"ecoo");
         getActivity().getContentResolver().insert(Rcontract.CONTENT_URI, contentValues);
     }
-
     public  void get()
     {
         Log.v("Contra","geT-><>");
@@ -236,4 +227,112 @@ for(int i=0;i<recipeItems.get(pos).getIngredientItems().size();i++)
         }
 
     }
+void solv(String in)
+{
+    OkHttpClient client=new OkHttpClient();
+    Request request=new Request.Builder().url(in).build();
+    client.newCall(request).enqueue(new Callback()
+    {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException
+        {
+            try {
+                String G=response.body().string();
+                Log.v("Alpha",G);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    });
 }
+    public class GetJsonFromUrl extends AsyncTask<Object,Void,String>
+    {
+
+        @Override
+        protected String doInBackground(Object... params)
+        {
+            String RES="";
+            try {
+                RES= JSON_ST(Build_url((String)params[0]));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return RES;
+        }
+        @Override
+        protected void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+            mListener.onAc();
+            try {
+                getData(s);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        //------------------------------------------------------
+
+        public String readStream(InputStream in)
+        {
+            if (in ==null){return null;}
+            BufferedReader reader=new BufferedReader(new InputStreamReader(in));// b7ot data fe buffer 3a4an a3rf a2rha
+            StringBuilder Sp=new StringBuilder();// 3a4an a5zn fe DAta eli ha2rha mn Buffer
+            String Line;
+            try {
+                while ((Line=reader.readLine())!=null)
+                {
+                    Sp.append(Line).append("\n");
+                    // read Line need CAtch Statment
+                }
+            }catch (IOException e) {//Do Some Thing}
+            }finally
+            {
+                // Finaly is Done any way even if try and catch has return statmenT
+                try {
+                    in.close();
+                    // Bardo close m7taga CAt4 3a4an mtDrp4
+                }catch (IOException e)
+                {
+                    // Do Some Thing
+                }
+            }// finally
+            return Sp.toString();
+        }
+        public URL Build_url(String S_t)
+        {
+            try {
+                URL url;
+                url = new URL(S_t);
+                Log.v("ASYNC_TASK_HAH",url+"");
+                // 3a4an a3rf a3ml e new URL lzam Try we catc4
+                return  url;
+            }catch (IOException e){
+                Log.e("TEST1","eror : ",e);}
+            return null;
+        }
+        public String JSON_ST(URL url)
+        {
+            String RESULT = null;
+            HttpURLConnection urlConnection=null;
+            // EstaBli4 ConeCtion
+            try {
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                RESULT=readStream(inputStream);
+            } catch (IOException e) { e.printStackTrace();  // Do Some Thing
+            }//cat4 end
+            finally {
+                if(urlConnection!=null)
+                    urlConnection.disconnect();
+            }
+            return  RESULT;
+        }
+    }
+    }

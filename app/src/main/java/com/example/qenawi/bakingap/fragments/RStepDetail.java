@@ -149,10 +149,10 @@ public class RStepDetail extends Fragment implements ExoPlayer.EventListener,Ada
         }
         else
         {
+
             exoPlayerView.setVisibility(View.INVISIBLE);
             img.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
-
         }
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -371,14 +371,16 @@ mediaSession.setPlaybackState(stateBuilder.build());
     public void onPause()
     {
         super.onPause();
-        if (player!=null) player.setPlayWhenReady(false);
+      //  if (player!=null) player.setPlayWhenReady(false);
+        releasePlayer();
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        if (player!=null) player.setPlayWhenReady(true);
+    //    if (player!=null) player.setPlayWhenReady(true);
+        chkSum();
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.example.qenawi.bakingap;
 
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +27,18 @@ public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-
+    private IdlingResource idlingResource;
+    @Before
+    public void Reg()
+    {
+        idlingResource=mActivityTestRule.getActivity().getIdlingResource();
+        Espresso.registerIdlingResources(idlingResource);
+    }
     @Test
     public void mainActivityTest()
     {
-        ViewInteraction recyclerView = onView(
+        ViewInteraction recyclerView = onView
+                (
                 allOf(withId(R.id.recipe_list),
                         withParent(withId(R.id.fragment)),
                         isDisplayed()));
@@ -39,6 +49,10 @@ public class MainActivityTest {
                 allOf(withId(R.id.recipe_list_detail), isDisplayed()));
         recyclerView2.perform(actionOnItemAtPosition(10, click()));
 
+    }
+    public void UnReg()
+    {
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
 }
