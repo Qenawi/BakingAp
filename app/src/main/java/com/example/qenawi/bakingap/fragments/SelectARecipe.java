@@ -21,7 +21,6 @@ import com.example.qenawi.bakingap.items.StepItem;
 import com.example.qenawi.bakingap.provider.Rcontract;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -80,7 +79,6 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
         layoutManager=new GridLayoutManager(getContext(),2);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(layoutManager);
-        Log.v("Alpha",recipeItems.size()+"VE");
         adapter = new RecyclerViewAdapterMainActivity(getContext(), this, recipeItems, 2);
         rv.setAdapter(adapter);
         return  root;
@@ -127,9 +125,8 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
         void onAc();
     }
 
-    private  void getData(String json) throws JSONException
+    private  void getData(String json) throws Exception
     {
-        Log.v("Alpha",json);
         ArrayList<IngredientItem>ingredientItems;
         ArrayList<StepItem>stepItems;
 
@@ -139,7 +136,6 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
         IngredientItem ingredientItem;
         StepItem stepItem;
         arr = new JSONArray(json);
-        Log.v("Alpha",arr.length()+" ");
         for(int i=0;i<arr.length();i++) //recipi
         {
             o=arr.getJSONObject(i);
@@ -149,7 +145,6 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
             steps=o.getJSONArray("steps");
             ingredientItems=new ArrayList<>();
             stepItems=new ArrayList<>();
-            Log.v("Alpha",f.getName());
             for(int ii=0;ii<ingred.length();ii++)
             {
                 oi=ingred.getJSONObject(ii);
@@ -180,7 +175,6 @@ public class SelectARecipe extends Fragment implements RecyclerViewAdapterMainAc
     void clean_add(int pos)
     {
     //    get();
-        Log.v("Contra","clean_add");
         getActivity().getContentResolver().delete(Rcontract.CONTENT_URI, "ecoo", null);
      //   get();
         add_to_dp(pos);
@@ -243,7 +237,6 @@ void solv(String in)
         {
             try {
                 String G=response.body().string();
-                Log.v("Alpha",G);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -271,9 +264,11 @@ void solv(String in)
         {
             super.onPostExecute(s);
             mListener.onAc();
-            try {
+            try
+            {
                 getData(s);
-            } catch (JSONException e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
@@ -310,7 +305,6 @@ void solv(String in)
             try {
                 URL url;
                 url = new URL(S_t);
-                Log.v("ASYNC_TASK_HAH",url+"");
                 // 3a4an a3rf a3ml e new URL lzam Try we catc4
                 return  url;
             }catch (IOException e){
