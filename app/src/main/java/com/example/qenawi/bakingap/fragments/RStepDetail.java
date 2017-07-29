@@ -102,7 +102,8 @@ public class RStepDetail extends Fragment implements ExoPlayer.EventListener,Ada
             stepItemArr = recipeItem != null ? recipeItem.getStepItems() : null;
             stepItem = stepItemArr.get(idx);
         }
-        try {
+        try
+        {
             getActivity().setTitle(recipeItem.getName());
         }catch (Exception e){e.printStackTrace();}
     }

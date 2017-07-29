@@ -48,7 +48,6 @@ public class MainActivityTest {
         ViewInteraction recyclerView2 = onView(
                 allOf(withId(R.id.recipe_list_detail), isDisplayed()));
         recyclerView2.perform(actionOnItemAtPosition(10, click()));
-
     }
     public void UnReg()
     {

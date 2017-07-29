@@ -79,9 +79,9 @@ public class RecyclerViewAdapterMainActivity extends RecyclerView.Adapter<Recycl
         }
 
         void bind(  RecipeItem img_src,int rotate)
-        {
-//// TODO: rotate  glide
-            recipe_name.setText(img_src.getName());
+         {
+////       TODO: rotate  glide
+             recipe_name.setText(img_src.getName());
             if (!img_src.getImg_url().equals("")) Glide.with(context).load(img_src.getImg_url()).into(recipe_img);
         }
 

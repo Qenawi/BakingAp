@@ -73,7 +73,8 @@ public class AdapterMultiView extends RecyclerView.Adapter<GenericViewHolder>
     {
         View x;
         TextView e;
-        private Viewholder1(View itemView) {
+        private Viewholder1(View itemView)
+        {
             super(itemView);
             x = itemView;
             e = (TextView) x.findViewById(R.id.item2text);
